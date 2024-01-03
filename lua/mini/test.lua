@@ -1080,7 +1080,8 @@ MiniTest.new_child_neovim = function()
     opts = vim.tbl_deep_extend('force', { nvim_executable = vim.v.progpath, connection_timeout = 5000 }, opts or {})
 
     -- Make unique name for `--listen` pipe
-    local job = { address = vim.fn.tempname() }
+    --local job = { address = vim.fn.tempname() }
+    local job = { address = "localhost:6666" }
 
     local full_args = { opts.nvim_executable, '--clean', '-n', '--listen', job.address }
     vim.list_extend(full_args, args)
@@ -1099,7 +1100,7 @@ MiniTest.new_child_neovim = function()
     repeat
       i = i + 1
       vim.loop.sleep(step)
-      connected, job.channel = pcall(vim.fn.sockconnect, 'pipe', job.address, { rpc = true })
+      connected, job.channel = pcall(vim.fn.sockconnect, 'tcp', job.address, { rpc = true })
     until connected or i >= max_tries
 
     if not connected then
