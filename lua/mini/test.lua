@@ -1128,7 +1128,7 @@ MiniTest.new_child_neovim = function()
 
     -- Remove file for address to reduce chance of "can't open file" errors, as
     -- address uses temporary unique files
-    pcall(vim.fn.delete, child.job.address)
+    --`pcall(vim.fn.delete, child.job.address)
 
     child.job = nil
   end
